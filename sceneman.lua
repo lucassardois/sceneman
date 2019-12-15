@@ -1,0 +1,3 @@
+local sceneman = {}
+
+return sceneman
