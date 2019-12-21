@@ -11,7 +11,15 @@ function sceneman:newscene()
   function scene:tofront() end
   function scene:toback() end
   function scene:stop() end
-  function scene:quit() end
+  function scene:quit(...)
+    -- By default we simply call the
+    -- stop function
+    self:stop(...)
+  end
+
+  function scene:isactive()
+    return sceneman.active == self
+  end
 
   function scene:update() end
   function scene:draw() end
@@ -27,7 +35,7 @@ function sceneman:new()
   return scene
 end
 
--- Call the load method of all the
+-- Call the load function of all the
 -- scenes
 function sceneman:load(...)
   for _, scene in pairs(self.scenes) do
@@ -44,7 +52,7 @@ function sceneman:hasactive()
 end
 
 -- Set a scene has the active scene
--- and call it's start method
+-- and call it's start function
 function sceneman:start(scene, ...)
   scene:start(...)
   self.active = scene
@@ -52,14 +60,14 @@ function sceneman:start(scene, ...)
 end
 
 -- Set a scene has the active scene
--- and call it's tofront method
+-- and call it's tofront function
 function sceneman:tofront(scene, ...)
   scene:tofront(...)
   self.active = scene
   return self
 end
 
--- Call the toback method of the active
+-- Call the toback function of the active
 -- scene and set to nil the active scene
 function sceneman:toback(...)
   if self:hasactive() then
@@ -85,6 +93,17 @@ end
 -- Stop the current active scene
 function sceneman:stop(...)
   if self:hasactive() then
+    self.active:stop(...)
+  end
+
+  self.active = nil
+  return self
+end
+
+-- Call the stop function of every 
+-- registered scenes
+function sceneman:stopall(...)
+  for _, scene in pairs(self.scenes) do
     self.active:stop(...)
   end
 
