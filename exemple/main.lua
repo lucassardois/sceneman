@@ -1,10 +1,28 @@
 local sceneman = require('../sceneman')
 
-local scenemainmenu = sceneman:new()
-local scenegame = sceneman:new()
-local scenepause = sceneman:new()
+local menu = sceneman:new()
+menu.load = function()
+  print('menu loaded')
+end
+menu.start = function()
+  print('menu started')
+end
 
-sceneman:start(scenemainmenu)
-sceneman:start(scenegame)
--- player press pause button
-sceneman:start(scenepause)
+local game = sceneman:new()
+game.load = function()
+  print('game loaded')
+end
+
+local pause = sceneman:new()
+pause.load = function()
+  print('pause loaded')
+end
+
+function love.load()
+  sceneman:load()
+  sceneman:start(menu)
+end
+
+function love.quit()
+  sceneman:quit()
+end
