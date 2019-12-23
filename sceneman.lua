@@ -5,20 +5,27 @@ sceneman.active = nil
 -- Create a new scene
 function sceneman:newscene()
   local scene = {}
+  scene.loaded = false
+  scene.started = false
 
   function scene:load() end
   function scene:start() end
   function scene:tofront() end
   function scene:toback() end
-  function scene:stop() end
-  function scene:quit(...)
-    -- By default we simply call the
-    -- stop function
-    self:stop(...)
+  function scene:clean() end
+  function scene:stop(...) end
+  function scene:quit(...) end
+
+  function scene:isloaded()
+    return self.loaded
   end
 
   function scene:isactive()
     return sceneman.active == self
+  end
+
+  function scene:isstarted()
+    return self.started
   end
 
   function scene:update() end
@@ -30,8 +37,6 @@ end
 -- Create and register a new scene
 function sceneman:new(name)
   local scene = self:newscene()
-  -- local index = #self.scenes
-  -- self.scenes[index + 1] = scene
   self.scenes[name] = scene
   return scene
 end
@@ -50,11 +55,20 @@ function sceneman:get(name)
   return scene
 end
 
--- Call the load function of all the
--- scenes
-function sceneman:load(...)
-  for _, scene in pairs(self.scenes) do
-    scene:load(...)
+-- Call the load function of a
+-- a single scene
+function sceneman:load(name, ...)
+  local scene = self:get(name)
+  scene:load(...)
+  scene.loaded = true
+  return self
+end
+
+-- Call the load function
+-- of every scenes
+function sceneman:loadall(...)
+  for name, scene in pairs(self.scenes) do
+    sceneman:load(name, ...)
   end
 
   return self
@@ -71,6 +85,7 @@ end
 function sceneman:start(name, ...)
   local scene = self:get(name)
   scene:start(...)
+  scene.started = true
   self.active = scene
   return self
 end
@@ -111,29 +126,52 @@ end
 function sceneman:stop(...)
   if self:hasactive() then
     self.active:stop(...)
+    self.active.started = false
   end
 
   self.active = nil
   return self
 end
 
--- Call the stop function of every 
--- registered scenes
+-- Stop all scenes wich
+-- are started
 function sceneman:stopall(...)
   for _, scene in pairs(self.scenes) do
-    self.active:stop(...)
+    if scene:isstarted() then
+      scene:stop(...)
+      scene.started = false
+    end
   end
 
   self.active = nil
   return self
 end
 
--- Call the stop function of each scenes
-function sceneman:quit(...)
-  for _, scene in pairs(self.scenes) do
+-- Call the quit method of
+-- the given scene, wich
+-- unload allocated ressources
+-- trough the load function
+function sceneman:quit(name, ...)
+  local scene = self:get(name)
+
+  if scene == self.active then
+    error('scenman: can\'t quit active scene')
+  end
+
+  if scene:isloaded() then
     scene:quit(...)
   end
 
+  scene.loaded = false
+  return self
+end
+
+-- Call the quit method of
+-- every scene
+function sceneman:quitall(...)
+  for name, _ in pairs(self.scenes) do
+    self:quit(name, ...)
+  end
   return self
 end
 
