@@ -28,10 +28,25 @@ function sceneman:newscene()
 end
 
 -- Create and register a new scene
-function sceneman:new()
+function sceneman:new(name)
   local scene = self:newscene()
-  local index = #self.scenes
-  self.scenes[index + 1] = scene
+  -- local index = #self.scenes
+  -- self.scenes[index + 1] = scene
+  self.scenes[name] = scene
+  return scene
+end
+
+function sceneman:get(name)
+  if type(name) ~= 'string' then
+    error('sceneman: scene name must be a string')
+  end
+
+  local scene = self.scenes[name]
+
+  if scene == nil then
+    error('sceneman: scene "' .. name .. '" not found"')
+  end
+
   return scene
 end
 
@@ -53,7 +68,8 @@ end
 
 -- Set a scene has the active scene
 -- and call it's start function
-function sceneman:start(scene, ...)
+function sceneman:start(name, ...)
+  local scene = self:get(name)
   scene:start(...)
   self.active = scene
   return self
@@ -61,7 +77,8 @@ end
 
 -- Set a scene has the active scene
 -- and call it's tofront function
-function sceneman:tofront(scene, ...)
+function sceneman:tofront(name, ...)
+  local scene = self:get(name)
   scene:tofront(...)
   self.active = scene
   return self
