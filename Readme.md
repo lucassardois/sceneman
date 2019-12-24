@@ -8,7 +8,7 @@ The most important concept in scenman are `scene`. Scenes explain what should be
 
 First you will need to require scenman, it's simple:
 ```lua
-local scenman = require('scenman')
+local sceneman = require('scenman')
 ```
 You can now access the api trough the scenman table!
 
@@ -16,7 +16,7 @@ First, you will need to create and register you scene:
 ```lua
 -- Create and register in scenman a new scene
 -- called 'menu'
-local menu = scenman:new('menu')
+local menu = sceneman:new('menu')
 ```
 The scene name must be a string and must be unique. This function returns a scene.
 My tips would be to create a scenes folder and place all your scenes in that folder. For instance I would create
