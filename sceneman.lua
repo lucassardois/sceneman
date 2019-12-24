@@ -3,8 +3,9 @@ sceneman.scenes = {}
 sceneman.active = nil
 
 -- Create a new scene
-function sceneman:newscene()
-  local scene = {}
+function sceneman:newscene(base)
+  local scene = base or {}
+
   scene.loaded = false
   scene.started = false
 
@@ -33,8 +34,8 @@ function sceneman:newscene()
 end
 
 -- Create and register a new scene
-function sceneman:new(name)
-  local scene = self:newscene()
+function sceneman:new(name, base)
+  local scene = self:newscene(base)
   self.scenes[name] = scene
   return scene
 end
