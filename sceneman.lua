@@ -151,7 +151,7 @@ function sceneman:quit(name, ...)
   local scene = self:get(name)
 
   if scene == self.active then
-    error('scenman: can\'t quit active scene')
+    error('sceneman: can\'t quit active scene')
   end
 
   if scene:isloaded() then

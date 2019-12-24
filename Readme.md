@@ -3,18 +3,18 @@ Simple scene manager for lua.
 Perfect to use for [Löve2D](https://love2d.org/) projects.
 
 ## Documentation
-The most important concept in scenman are `scene`. Scenes explain what should be compute and how to draw the result.
+The most important concept in sceneman are `scene`. Scenes explain what should be compute and how to draw the result.
 **There is maximum one active scene at a time**. This is *always* true.
 
-First you will need to require scenman, it's simple:
+First you will need to require sceneman, it's simple:
 ```lua
-local sceneman = require('scenman')
+local sceneman = require('sceneman')
 ```
-You can now access the api trough the scenman table!
+You can now access the api trough the sceneman table!
 
 First, you will need to create and register you scene:
 ```lua
--- Create and register in scenman a new scene
+-- Create and register in sceneman a new scene
 -- called 'menu'
 local menu = sceneman:new('menu')
 ```
@@ -161,4 +161,4 @@ sceneman:draw(...)
 This project use [busted](http://olivinelabs.com/busted/) to run tests. Simply run the command `busted` at the root of the repo.
 
 ## License
-This repository use the [MIT license](https://github.com/loustak/scenman/blob/master/License).
+This repository use the [MIT license](https://github.com/loustak/sceneman/blob/master/License).
