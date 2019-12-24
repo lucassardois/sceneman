@@ -10,9 +10,10 @@ function sceneman:newscene()
 
   function scene:load() end
   function scene:start() end
+  function scene:update() end
+  function scene:draw() end
   function scene:tofront() end
   function scene:toback() end
-  function scene:clean() end
   function scene:stop(...) end
   function scene:quit(...) end
 
@@ -27,9 +28,6 @@ function sceneman:newscene()
   function scene:isstarted()
     return self.started
   end
-
-  function scene:update() end
-  function scene:draw() end
 
   return scene
 end
@@ -147,10 +145,8 @@ function sceneman:stopall(...)
   return self
 end
 
--- Call the quit method of
--- the given scene, wich
--- unload allocated ressources
--- trough the load function
+-- Call the quit function of
+-- the given scene
 function sceneman:quit(name, ...)
   local scene = self:get(name)
 
