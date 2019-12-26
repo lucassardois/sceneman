@@ -9,14 +9,14 @@ function sceneman:newscene(base)
   scene.loaded = false
   scene.started = false
 
-  function scene:load() end
-  function scene:start() end
-  function scene:update() end
-  function scene:draw() end
-  function scene:tofront() end
-  function scene:toback() end
-  function scene:stop(...) end
-  function scene:quit(...) end
+	scene.load = scene.load or function() end
+	scene.start = scene.start or function() end
+	scene.update = scene.update or function() end
+	scene.draw = scene.draw or function() end
+	scene.tofront = scene.tofront or function() end
+	scene.toback = scene.toback or function() end
+	scene.stop = scene.stop or function() end
+	scene.quit = scene.quit or function() end
 
   function scene:isloaded()
     return self.loaded
